@@ -6,7 +6,7 @@ from keras.optimizers import RMSprop
 import prepData as PD
 
 
-TRAIN_SPLIT = 10000
+TRAIN_SPLIT = 500000
 
 PATH = PD.PATH
 MODEL_PATH = PATH + "models\\"
@@ -23,24 +23,26 @@ def getData():
 	return xTrain,yTrain,xTest,yTest
 
 
-def trainConvModel(xTrain,yTrain):	
+def trainConvModel(xTrain,yTrain):
 	model = Sequential()
-	model.add(layers.Embedding(PD.MAX_FEATURES, 64, input_length=PD.MAX_LENGTH))
+	model.add(layers.Embedding(PD.MAX_FEATURES, 4, input_length=PD.MAX_LENGTH))
 	model.add(layers.Conv1D(8, 7, activation='relu'))
-	model.add(layers.MaxPooling1D(5))
-	model.add(layers.Conv1D(8, 5, activation='relu'))
+	model.add(layers.MaxPooling1D(3))
+	model.add(layers.Conv1D(4, 5, activation='relu'))
 	model.add(layers.GlobalMaxPooling1D())
 	model.add(layers.Dense(PD.CATEGORY_COUNT, activation='softmax'))
-	model.summary()
+	#model.summary()
 	model.compile(	optimizer=RMSprop(lr=8e-4),
 					loss='categorical_crossentropy',
 					metrics=['acc'])
+	
+	
 	history = model.fit(xTrain, yTrain,
-					epochs=20,
+					epochs=40,
 					batch_size=128,
 					validation_split=0.2)
 	
-	
+	model.summary()
 	saveModel(model, "label_model")
 	
 	return model
