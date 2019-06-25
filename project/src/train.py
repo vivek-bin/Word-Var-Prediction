@@ -48,6 +48,18 @@ def trainConvModel(xTrain,yTrain):
 	return model
 	
 
+def trainTryModel(xTrain,yTrain):
+	model = Sequential()
+	model.add(layers.Embedding(PD.MAX_FEATURES, 64, input_length=128))
+	model.add(layers.LSTM(32,return_sequences=True))
+	model.add(layers.LSTM(32))
+	model.compile(	optimizer=RMSprop(lr=8e-4),
+					loss='categorical_crossentropy',
+					metrics=['acc'])
+	
+	model.summary()
+	
+
 def saveModel(model,modelName):
 	# serialize model to JSON
 	model_json = model.to_json()
@@ -62,8 +74,8 @@ def saveModel(model,modelName):
 	
 if __name__ == "__main__":
 	xTrain,yTrain,xTest,yTest = getData()
-	model = trainConvModel(xTrain,yTrain)
-
+	#model = trainConvModel(xTrain,yTrain)
+	trainTryModel(xTrain,yTrain)
 	#scores = model.evaluate(xTest, yTest, verbose=0)
 	#print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 

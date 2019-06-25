@@ -1,11 +1,16 @@
 import numpy as np
 import random
 import json
+from inspect import getsourcefile
+from os.path import abspath
+from os.path import dirname
 
 
 from keras.utils.np_utils import to_categorical
 
-PATH = "D:\\ML\\label descriminate\\data\\"
+PATH = dirname(dirname(dirname(abspath(getsourcefile(lambda:0))))) + "/"
+
+PATH = PATH+"data\\"
 JSON_PATH = PATH + "JSON\\"
 
 CATEGORY_DICT = {}
