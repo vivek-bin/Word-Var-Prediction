@@ -55,17 +55,17 @@ def getAllData():
 
 
 def getEncoding(features):
-	distinctChar = []
+	global MAX_FEATURES
+	distinctChar = set()
 	for rec in features:
 		for chr in rec:
-			if chr not in distinctChar:
-				distinctChar.append(chr)
+			distinctChar.add(chr)
 				
 	distinctChar = sorted(distinctChar)
 	
 	charEncode = {ch: (index+1) for index,ch in enumerate(distinctChar)}
 	
-	MAX_FEATURES = len(charEncode)
+	MAX_FEATURES = len(charEncode) + 1
 	return charEncode
 	
 	
@@ -102,6 +102,7 @@ def vectorize(features,charEncode):
 	
 	
 def loadVectorizedData():
+	global MAX_FEATURES
 	with open(JSON_PATH+"features.json", "r") as json_file:
 		features = json.load(json_file)
 		
@@ -112,8 +113,8 @@ def loadVectorizedData():
 		encoding = json.load(json_file)
 	
 	
-	MAX_FEATURES = len(encoding)
-	
+	MAX_FEATURES = len(encoding) + 1
+	print(MAX_FEATURES)
 	x = vectorize(features,encoding)
 	y = to_categorical(labels)
 		
