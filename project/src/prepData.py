@@ -10,8 +10,8 @@ from keras.utils.np_utils import to_categorical
 
 PATH = dirname(dirname(dirname(abspath(getsourcefile(lambda:0))))) + "/"
 
-PATH = PATH+"data\\"
-JSON_PATH = PATH + "JSON\\"
+PATH = PATH+"data/"
+JSON_PATH = PATH + "JSON/"
 
 CATEGORY_DICT = {}
 CATEGORY_DICT["para"] = 0
